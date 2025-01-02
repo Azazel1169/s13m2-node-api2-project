@@ -98,7 +98,9 @@ router.put("/:id", (req, res) => {
         }
       })
       .then((post) => {
-        res.status(200).json(post);
+        if (post) {
+          res.json(post);
+        }
       })
       .catch((err) => {
         res.status(500).json({
@@ -109,8 +111,6 @@ router.put("/:id", (req, res) => {
   }
 });
 
-router.get("/:id/comments", (req, res) => {
-  
-});
+router.get("/:id/comments", async (req, res) => {});
 
 module.exports = router;
