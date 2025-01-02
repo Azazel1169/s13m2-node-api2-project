@@ -111,6 +111,23 @@ router.put("/:id", (req, res) => {
   }
 });
 
-router.get("/:id/comments", async (req, res) => {});
+router.get("/:id/comments", async (req, res) => {
+  try {
+    const post = await Post.findById(req.params.id); // variable to find post by certain id
+    if (!post) { // if not the post throws 404
+      res.status(404).json({
+        message: "The post with the specified ID does not exist",
+      });
+    } else {
+      const message = await Post.findPostComments(req.params.id);
+      res.json(message); // if post is found returns post with comments
+    }
+  } catch (err) {
+    res.status(500).json({
+      message: "The comments information could not be retrieved",
+      err: err.message,
+    });
+  }
+});
 
 module.exports = router;
